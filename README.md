@@ -1,2 +1,2 @@
-# equipo1
-No creen que deberiamos hacer un grupo de whats para ponernos bien de acuerdo en lo del proyecto? el compañero que falto el martes ya me busco por correo pero igual me dejo su numero, si quieren pongan sus numeros aqui y nos ponemos de acuerdo sobre el proyecto
+# Objetivo General del Proyecto
+Nuestra aplicacion tiene como objetivo ser una app eficiente y confiable para nuestros usuarios sobre la informacion mostrada, tanto informacion y descripcion de las peliculas, como de las calificaciones y opiniones que tengan de la misma nuestros usuarios, siendo una referencia para ellos mismos transparente y neutral.
