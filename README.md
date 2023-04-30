@@ -33,6 +33,24 @@ Antes de ejecutar el proyecto es necesario contar con algunas herramientas:
 
 ## Instalación
 
+1. Clonar el repositorio.
+```
+git clone https://github.com/Jorge-AmezcuaC/equipo1.git
+```
+2. Entar a la carpeta del proyecto.
+```
+cd equipo1/movies/
+```
+3. Instalar dependencias.
+```
+npm install
+```
+4. Ejecutar la apliación
+```
+npx expo start
+```
+5. Cuando se ejecute l comando se mostrará una lista de opciones para ejecutar en la aplicación en una web, en un emulador o en el celular.
+
 
 ## `Integrantes`
 
