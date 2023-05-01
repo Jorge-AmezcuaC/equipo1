@@ -13,7 +13,7 @@ import Input from "../components/Input";
 const Login = ({ navigation }) => {
   useEffect(() => {
     StatusBar.setHidden(true, "none");
-  });
+  }, []);
   return (
     <View style={styles.container}>
       <View style={[styles.circle, styles.positionCircle1]} />

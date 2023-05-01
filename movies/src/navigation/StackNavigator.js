@@ -4,6 +4,7 @@ import Detail from "../screens/Detail";
 import Favorito from "../screens/Favorito";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
+import Splash from "../screens/Splash";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -42,6 +43,13 @@ const StackNavigator = () => {
         </>
       ) : (
         <>
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{
+              headerShown: false
+            }}
+          />
           <Stack.Screen
             name="Login"
             component={Login}
