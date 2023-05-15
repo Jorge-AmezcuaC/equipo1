@@ -11,8 +11,10 @@ import { useSelector } from "react-redux"
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
+
   // const { isSiggnedIn } = useSelector((state) => state.login)
   const isSiggnedIn = true
+
 
   return (
     <Stack.Navigator>
