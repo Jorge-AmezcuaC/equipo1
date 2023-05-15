@@ -6,11 +6,13 @@ import Login from "../screens/Login";
 import Register from "../screens/Register";
 import Splash from "../screens/Splash";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux"
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
-  const isSiggnedIn = false;
+  // const { isSiggnedIn } = useSelector((state) => state.login)
+  const isSiggnedIn = true
 
   return (
     <Stack.Navigator>
@@ -21,7 +23,7 @@ const StackNavigator = () => {
             component={Home}
             options={{
               title: "Cinema Meta",
-              headerStyle: { backgroundColor: "#5af7f2" },
+              headerStyle: { backgroundColor: "red" },
             }}
           />
           <Stack.Screen
