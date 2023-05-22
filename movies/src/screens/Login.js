@@ -1,11 +1,5 @@
-import { useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  StatusBar,
-} from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { WebView } from "react-native-webview";
@@ -18,10 +12,6 @@ import {
 } from "../store/slices/login";
 
 const Login = () => {
-  useEffect(() => {
-    StatusBar.setHidden(true, "none");
-  }, []);
-
   const dispatch = useDispatch();
   let idInterval;
 
