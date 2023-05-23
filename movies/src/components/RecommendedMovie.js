@@ -1,4 +1,5 @@
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
+import React from "react";
 
 const RecommendedMovie = ({ image, text, onPress }) => {
   const uri = "https://image.tmdb.org/t/p/w500" + image;
