@@ -1,64 +1,74 @@
-import React from "react";
-import Home from "../screens/Home";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Detail from "../screens/Detail";
-import Favorito from "../screens/Favorito";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import Splash from "../screens/Splash";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
+import {
+  isLoggedIn,
+  sessionId,
+} from "../store/slices/login";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createStackNavigator();
 
+
 const StackNavigator = () => {
+  const [showSplash, setShowSplash] = useState(true);
 
-  // const { isSiggnedIn } = useSelector((state) => state.login)
-  const isSiggnedIn = true
+  const { isSiggnedIn } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const getSessionId = async () => {
+      const session = await AsyncStorage.getItem("sessionId");
+      if (session) {
+        dispatch(isLoggedIn(true));
+        dispatch(sessionId(session));
+      }
+      setTimeout(() => {
+        setShowSplash(false);
+      }, 3000);
+    };
+    getSessionId();
+  }, []);
 
   return (
     <Stack.Navigator>
-      {isSiggnedIn ? (
+      {showSplash ? (
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : isSiggnedIn ? (
         <>
           <Stack.Screen
             name="Home"
-            component={Home}
+            component={TabNavigator}
             options={{
-              title: "Cinema Meta",
-              headerStyle: { backgroundColor: "red" },
+              headerShown: false,
             }}
           />
           <Stack.Screen
             name="Detail"
             component={Detail}
             options={{
-              title: "Detalle",
-              headerStyle: { backgroundColor: "#5af7f2" },
-            }}
-          />
-          <Stack.Screen
-            name="Favorito"
-            component={Favorito}
-            options={{
-              title: "Favoritos",
-              headerStyle: { backgroundColor: "#5af7f2" },
+              headerShown: false,
             }}
           />
         </>
       ) : (
         <>
           <Stack.Screen
-            name="Splash"
-            component={Splash}
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
             name="Login"
             component={Login}
             options={{
-              headerShown: false
+              headerShown: false,
             }}
           />
           <Stack.Screen

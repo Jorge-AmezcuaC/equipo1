@@ -11,12 +11,10 @@ const CustomButton = ({ children, ...rest }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 5,
-    backgroundColor: "red",
-    height: 28,
+    backgroundColor: "#22caee",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 5,
   },
   text: {

@@ -1,17 +1,7 @@
-import React, { useEffect } from "react";
-import { View, Image, StyleSheet, StatusBar } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
+import React from "react";
 
-const Splash = ({ navigation }) => {
-  const goToScreen = (stack) => {
-    navigation.navigate(stack);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      goToScreen("Login");
-    }, 4000);
-  }, []);
-
+const Splash = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require("../assets/CineMeta.png")} />

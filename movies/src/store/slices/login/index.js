@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export const loginSlice = createSlice({
@@ -24,12 +25,16 @@ export const loginSlice = createSlice({
     login: (state, action) => {
       state.isSiggnedIn = action.payload;
     },
+    removeRequestToken: (state, action) => {
+      state.tokens.requestToken = action.payload;
+    },
   },
 });
 
 export default loginSlice.reducer;
 
-const { addRequestToken, webActive, addSessionId, login } = loginSlice.actions;
+const { addRequestToken, webActive, addSessionId, login, removeRequestToken } =
+  loginSlice.actions;
 
 export const axiosRequestToken = () => async (dispatch) => {
   const url =
@@ -51,4 +56,8 @@ export const sessionId = (value) => (dispatch) => {
 
 export const isLoggedIn = (value) => (dispatch) => {
   dispatch(login(value));
+};
+
+export const deleteRequestToken = (value) => (dispatch) => {
+  dispatch(removeRequestToken(value));
 };
