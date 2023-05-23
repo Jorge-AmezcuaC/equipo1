@@ -7,6 +7,8 @@ import Register from "../screens/Register";
 import Splash from "../screens/Splash";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons"
+import CustomButton from "../components/CustomButton";
 
 const Stack = createStackNavigator();
 
@@ -36,14 +38,21 @@ const StackNavigator = () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{
+            options={({ navigation }) => ({
               title: "Cinema Meta",
               headerStyle: { backgroundColor: "#1d1d1d" },
               headerTitleStyle: {
                 color: "#fff"
               },
-              headerTitleAlign: "center"
-            }}
+              headerTitleAlign: "center",
+              headerLeft: () => {
+                <>
+                <CustomButton onPress={() => navigation.navigate('Favorito')}>
+                  <Ionicons name="heart-sharp" />
+                </CustomButton>
+                </>
+              }
+            })}
           />
           <Stack.Screen
             name="Detail"

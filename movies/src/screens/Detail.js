@@ -1,30 +1,65 @@
-import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, StyleSheet, Image, FlatList } from "react-native";
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
 import RecommendedMovie from "../components/RecommendedMovie";
-import { axiosMarkAsFavorite } from "../store/slices/favorites";
+import { fetchAllFavMovies, removeFromFavorites, addToFavorites } from "../store/slices/favlist";
 
-const Detail = ({ route, navigation }) => {
-  const { data } = route.params;
-  const image = "https://image.tmdb.org/t/p/w500" + data.poster_path;
-
+const Content = ({ image, data }) => {
   const { sessionId } = useSelector((state) => state.login.tokens);
-  const { list: movies } = useSelector((state) => state.movies);
-  const { iconName, buttonName } = useSelector((state) => state.favorites);
+  const { moviesId } = useSelector((state) => state.favlist);
 
   const dispatch = useDispatch();
 
+  const axiosFavorites = async () => {
+    let favorite = true;
+
+    if (index !== -1) {
+      favorite = false;
+    }
+
+    const url = `
+  https://api.themoviedb.org/3/account/{account_id}/favorite?api_key=af168e8969d69372dcccc733bfb642ff&session_id=${sessionId}`;
+    const response = await axios.post(url, {
+      media_type: "movie",
+      media_id: favMovieId,
+      favorite: favorite,
+    });
+
+    if (response.status === 200 || response.status === 201) {
+      if (!favorite) {
+        alert("Pelicula quitada de favoritos correctamente");
+        dispatch(removeFromFavorites(favMovieId))
+      } else {
+        alert("Pelicula añadida a favoritos correctamente");
+        dispatch(addToFavorites(favMovieId))
+      }
+    } else {
+      alert("Hubo un error intentelo más tarde")
+    }
+  };
+
+  const favMovieId = data.id;
+  let buttonName = "";
+  let iconName = "";
+  const index = moviesId.indexOf(favMovieId);
+
+  if (index !== -1) {
+    buttonName = "Quitar de favoritos";
+    iconName = "heart-sharp";
+  } else {
+    buttonName = "Añadir a favoritos";
+    iconName = "heart-outline";
+  }
+
+  useEffect(() => {
+    dispatch(fetchAllFavMovies(sessionId));
+  }, [dispatch]);
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <Image style={styles.image} source={{ uri: image }} />
       <View style={styles.content}>
         <Text style={styles.title}>{data.original_title}</Text>
@@ -34,33 +69,43 @@ const Detail = ({ route, navigation }) => {
         </View>
         <Text style={[styles.overview, styles.desc]}>{data.overview}</Text>
         <View style={styles.buttons}>
-          <CustomButton
-            onPress={() => dispatch(axiosMarkAsFavorite(sessionId, data.id))}
-          >
-            {`${buttonName}      `}
+          <CustomButton onPress={axiosFavorites}>
+            {`${buttonName}     `}
             <Ionicons name={iconName} size={20} />
           </CustomButton>
         </View>
         <Text style={styles.title}>Tambien Puede ver</Text>
-        <FlatList
-          key={1}
-          data={movies.results}
-          keyExtractor={(x) => x.id}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <RecommendedMovie
-              text={item.original_title}
-              image={item.poster_path}
-              onPress={() =>
-                navigation.navigate("Detail", {
-                  data: item,
-                })
-              }
-            />
-          )}
-        />
       </View>
-    </ScrollView>
+    </View>
+  );
+};
+
+const Detail = ({ route, navigation }) => {
+  const { data } = route.params;
+  const image = "https://image.tmdb.org/t/p/w500" + data.poster_path;
+
+  const { list: movies } = useSelector((state) => state.movies);
+
+  return (
+    <FlatList
+      style={styles.content}
+      key={1}
+      data={movies.results}
+      keyExtractor={(x) => x.id}
+      numColumns={2}
+      renderItem={({ item }) => (
+        <RecommendedMovie
+          text={item.original_title}
+          image={item.poster_path}
+          onPress={() =>
+            navigation.navigate("Detail", {
+              data: item,
+            })
+          }
+        />
+      )}
+      ListHeaderComponent={<Content image={image} data={data} />}
+    />
   );
 };
 
