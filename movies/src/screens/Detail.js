@@ -1,15 +1,26 @@
-import React, { useEffect } from "react";
-import { Text, View, StyleSheet, Image, FlatList } from "react-native";
+
+import React, { useEffect, useState, useRef } from "react";
+import { Text, View, StyleSheet, Image, FlatList, Modal } from "react-native";
 import axios from "axios";
+import { WebView } from "react-native-webview";
+
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
 import RecommendedMovie from "../components/RecommendedMovie";
-import { fetchAllFavMovies, removeFromFavorites, addToFavorites } from "../store/slices/favlist";
+
+import {
+  fetchAllFavMovies,
+  removeFromFavorites,
+  addToFavorites,
+} from "../store/slices/favlist";
 
 const Content = ({ image, data }) => {
   const { sessionId } = useSelector((state) => state.login.tokens);
   const { moviesId } = useSelector((state) => state.favlist);
+
+  const [showModal, setShowModal] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -31,13 +42,15 @@ const Content = ({ image, data }) => {
     if (response.status === 200 || response.status === 201) {
       if (!favorite) {
         alert("Pelicula quitada de favoritos correctamente");
-        dispatch(removeFromFavorites(favMovieId))
+
+        dispatch(removeFromFavorites(favMovieId));
       } else {
         alert("Pelicula añadida a favoritos correctamente");
-        dispatch(addToFavorites(favMovieId))
+        dispatch(addToFavorites(favMovieId));
       }
     } else {
-      alert("Hubo un error intentelo más tarde")
+      alert("Hubo un error intentelo más tarde");
+
     }
   };
 
@@ -60,15 +73,34 @@ const Content = ({ image, data }) => {
 
   return (
     <View style={styles.container}>
+
+      <Modal
+        visible={showModal}
+        onRequestClose={() => setShowModal(!setShowModal)}
+      >
+        <WebView
+          style={styles.container}
+          source={{ uri: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }}
+        />
+      </Modal>
+
       <Image style={styles.image} source={{ uri: image }} />
       <View style={styles.content}>
         <Text style={styles.title}>{data.original_title}</Text>
         <View style={styles.info}>
-          <Text style={styles.desc}>{data.release_date}</Text>
-          <Text style={styles.desc}>{data.vote_average}</Text>
+
+          <Text style={[styles.desc, styles.date]}>{data.release_date}</Text>
+          <View style={styles.desc}>
+            <Ionicons style={styles.star} name="star" size={20} color="#fff" />
+            <Text style={styles.desc}>{data.vote_average}</Text>
+          </View>
         </View>
         <Text style={[styles.overview, styles.desc]}>{data.overview}</Text>
         <View style={styles.buttons}>
+          <CustomButton onPress={() => setShowModal(true)}>
+            Ver pelicula
+          </CustomButton>
+
           <CustomButton onPress={axiosFavorites}>
             {`${buttonName}     `}
             <Ionicons name={iconName} size={20} />
@@ -81,6 +113,14 @@ const Content = ({ image, data }) => {
 };
 
 const Detail = ({ route, navigation }) => {
+
+  const ref = useRef();
+
+  const toTop = () => {
+    ref.current.scrollToOffset({ animated: true, offset: 0 });
+  };
+
+
   const { data } = route.params;
   const image = "https://image.tmdb.org/t/p/w500" + data.poster_path;
 
@@ -88,6 +128,9 @@ const Detail = ({ route, navigation }) => {
 
   return (
     <FlatList
+
+      ref={ref}
+
       style={styles.content}
       key={1}
       data={movies.results}
@@ -97,11 +140,14 @@ const Detail = ({ route, navigation }) => {
         <RecommendedMovie
           text={item.original_title}
           image={item.poster_path}
-          onPress={() =>
+
+          onPress={() => {
+            toTop();
             navigation.navigate("Detail", {
               data: item,
-            })
-          }
+            });
+          }}
+
         />
       )}
       ListHeaderComponent={<Content image={image} data={data} />}
@@ -119,7 +165,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#eee",
     paddingHorizontal: 25,
-    marginVertical: 25,
+
+    marginTop: 25,
+
   },
   image: {
     width: "100%",
@@ -151,6 +199,17 @@ const styles = StyleSheet.create({
   },
   buttons: {
     paddingHorizontal: 25,
+
+    justifyContent: "space-between",
+    height: 100,
+  },
+  star: {
+    top: 23,
+    right: 8,
+  },
+  date: {
+    top: 23,
+
   },
 });
 

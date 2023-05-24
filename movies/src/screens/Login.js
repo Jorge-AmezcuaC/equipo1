@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
+
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { WebView } from "react-native-webview";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,6 +15,10 @@ import {
 } from "../store/slices/login";
 
 const Login = () => {
+
+  const [isSessionId, setIsSessionId] = useState(false);
+
+
   const dispatch = useDispatch();
   let idInterval;
 
@@ -29,6 +36,7 @@ const Login = () => {
     });
 
     if (response.status === 200) {
+      AsyncStorage.setItem("sessionId", response.data.session_id);
       dispatch(sessionId(response.data.session_id));
       dispatch(isLoggedIn(true));
       clearInterval(idInterval);
@@ -39,6 +47,8 @@ const Login = () => {
     if (tokens.requestToken) {
       dispatch(changeWebValue(true));
       idInterval = setInterval(isTokenApproved, 5000);
+    } else {
+      dispatch(changeWebValue(false));
     }
   }, [tokens.requestToken]);
 
