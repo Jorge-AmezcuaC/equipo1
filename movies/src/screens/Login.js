@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,7 +15,9 @@ import {
 } from "../store/slices/login";
 
 const Login = () => {
+
   const [isSessionId, setIsSessionId] = useState(false);
+
 
   const dispatch = useDispatch();
   let idInterval;

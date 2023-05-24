@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Detail from "../screens/Detail";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import Splash from "../screens/Splash";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   isLoggedIn,
   sessionId,
 } from "../store/slices/login";
 import TabNavigator from "./TabNavigator";
+
 
 const Stack = createStackNavigator();
 
@@ -19,6 +23,7 @@ const StackNavigator = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   const { isSiggnedIn } = useSelector((state) => state.login);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,6 +38,7 @@ const StackNavigator = () => {
       }, 3000);
     };
     getSessionId();
+
   }, []);
 
   return (
@@ -49,16 +55,20 @@ const StackNavigator = () => {
         <>
           <Stack.Screen
             name="Home"
+
             component={TabNavigator}
             options={{
               headerShown: false,
             }}
+
           />
           <Stack.Screen
             name="Detail"
             component={Detail}
             options={{
               headerShown: false,
+
+
             }}
           />
         </>

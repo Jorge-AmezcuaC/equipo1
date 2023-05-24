@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+
 import {
   View,
   StyleSheet,
@@ -21,11 +22,13 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(fetchAllMovies())
+
   }, [dispatch]);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"light-content"} backgroundColor="#1d1d1d" />
+
       {data.results ? (
         <FlatList
           data={data.results}
@@ -57,6 +60,7 @@ const Home = ({ navigation }) => {
           </Text>
         </ScrollView>
       )}
+
     </View>
   );
 };
@@ -68,10 +72,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1d1d1d",
   },
+
   error: {
     color: "#fff",
     fontSize: 20,
   },
+
 });
 
 export default Home;

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+
 import {
   View,
   StyleSheet,
@@ -26,10 +27,12 @@ const Favorito = ({ navigation }) => {
 
   useEffect(() => {
     getFavMovies();
+
   }, [dispatch]);
 
   return (
     <View style={styles.container}>
+
       {data.results ? (
         <FlatList
           keyExtractor={(x) => x.id}
@@ -61,6 +64,7 @@ const Favorito = ({ navigation }) => {
           </Text>
         </ScrollView>
       )}
+
     </View>
   );
 };
@@ -72,10 +76,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1d1d1d",
   },
+
   error: {
     color: "#fff",
     fontSize: 20
   },
+
 });
 
 export default Favorito;
