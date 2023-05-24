@@ -68,10 +68,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1d1d1d",
   },
+
   error: {
     color: "#fff",
     fontSize: 20,
   },
+
 });
 
 export default Home;

@@ -96,22 +96,13 @@ const Content = ({ image, data }) => {
       <View style={styles.content}>
         <Text style={styles.title}>{data.original_title}</Text>
         <View style={styles.info}>
-          <Text style={[styles.desc, styles.date]}>{anio.substring(0,4)}</Text>
+
+          <Text style={[styles.desc, styles.date]}>{data.release_date}</Text>
           <View style={styles.desc}>
             <Ionicons style={styles.star} name="star" size={20} color="#fff" />
             <Text style={styles.desc}>{data.vote_average}</Text>
           </View>
         </View>
-          <Text style={styles.desc} numberOfLines={1}>
-            {
-              gen.map((genero, index, array) =>  {
-                if (index === array.length -1) {
-                  return genero.name
-                }
-                return `${genero.name} /`
-              })
-            }
-          </Text>
         <Text style={[styles.overview, styles.desc]}>{data.overview}</Text>
         <View style={styles.buttons}>
           <CustomButton onPress={() => setShowModal(true)}>
@@ -142,7 +133,9 @@ const Detail = ({ route, navigation }) => {
 
   return (
     <FlatList
+
       ref={ref}
+
       style={styles.content}
       key={1}
       data={movies.results}
@@ -175,7 +168,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#eee",
     paddingHorizontal: 25,
+
     marginTop: 25,
+
   },
   image: {
     width: "100%",
@@ -207,6 +202,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     paddingHorizontal: 25,
+
     justifyContent: "space-between",
     height: 100,
   },
@@ -216,6 +212,7 @@ const styles = StyleSheet.create({
   },
   date: {
     top: 23,
+
   },
 });
 

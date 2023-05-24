@@ -57,8 +57,8 @@ export const fetchAllFavMovies = (sessionId) => async (dispatch) => {
 
 export const addToFavorites = (movieId) => (dispatch) => {
   dispatch(markAsFavorite(movieId));
-};
+}
 
 export const removeFromFavorites = (movieId) => (dispatch) => {
-  dispatch(markAsNotFavorite(movieId));
-};
+  dispatch(markAsNotFavorite(movieId))
+}
