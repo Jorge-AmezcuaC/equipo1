@@ -57,4 +57,4 @@ npx expo start
 * Jorge Alejandro Amezcua Carrillo - INNI
 * Eber Vladimir Paz Mendoza - INNI
 * CESAR IVAN MORALES HERNANDEZ - INCE 
-* EDUARDO IVAN LUNA ROPON -
+* Eduardo Ivan Luna Ropon - INCO
